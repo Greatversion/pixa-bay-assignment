@@ -13,12 +13,9 @@ A **Flutter-based Image Gallery** that allows users to:
 2. **Load On-Device Images**: Allow users to browse and view images stored on their local device.
 3. **Mark Favorite Images**: Users can favorite/unfavorite images. The favorites are saved locally using `SharedPreferences` and can be accessed later.
 4. **Infinite Scrolling**: Automatically loads more images when the user scrolls to the bottom of the gallery.
-5. **Search Functionality**: Users can search for images from the Pixabay API based on keywords.
-6. **Pull-to-Refresh**: Refresh the image gallery by pulling down on the grid.
-7. **Dark Mode Support**: The app supports both light and dark modes.
+5. **Pull-to-Refresh**: Refresh the image gallery by pulling down on the grid.
+6. **Dark Mode Support**: The app supports both light and dark modes.
 
-## Screenshots
-_Add relevant screenshots here (grid view, on-device images, favorites, etc.)._
 
 ## Getting Started
 
