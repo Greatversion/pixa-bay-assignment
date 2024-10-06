@@ -38,9 +38,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
     return Scaffold(
       // appBar: AppBar(title: const Text('Gallery')),
       body: _images.isEmpty
-          ? Platform.isAndroid
-              ? _buildShimmerGrid()
-              : const Center(child: Text("Access Device Images in Android"))
+          ?  _buildShimmerGrid()
           : LayoutBuilder(builder: (context, constraints) {
               int columns = (constraints.maxWidth / 150).floor();
               return GridView.builder(
@@ -81,7 +79,10 @@ class _GalleryScreenState extends State<GalleryScreen> {
 
   // Shimmer effect for first page
   Widget _buildShimmerGrid() {
-    return LayoutBuilder(
+    if(Platform.isAndroid){
+      return const Text("Access Device Images in Android only");
+    }
+    return   LayoutBuilder(
       builder: (context, constraints) {
         int columns = (constraints.maxWidth / 150).floor();
         return GridView.builder(
