@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:photo_manager/photo_manager.dart';
@@ -37,7 +38,9 @@ class _GalleryScreenState extends State<GalleryScreen> {
     return Scaffold(
       // appBar: AppBar(title: const Text('Gallery')),
       body: _images.isEmpty
-          ? _buildShimmerGrid()
+          ? Platform.isAndroid
+              ? _buildShimmerGrid()
+              : const Center(child: Text("Access Device Images in Android"))
           : LayoutBuilder(builder: (context, constraints) {
               int columns = (constraints.maxWidth / 150).floor();
               return GridView.builder(
