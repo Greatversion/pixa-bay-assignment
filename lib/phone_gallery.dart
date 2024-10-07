@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:shimmer/shimmer.dart';
@@ -15,7 +16,9 @@ class _GalleryScreenState extends State<GalleryScreen> {
   @override
   void initState() {
     super.initState();
-    _fetchGalleryImages();
+    if (!kIsWeb) {
+      _fetchGalleryImages();
+    }
   }
 
   Future<void> _fetchGalleryImages() async {
@@ -38,7 +41,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
     return Scaffold(
       // appBar: AppBar(title: const Text('Gallery')),
       body: _images.isEmpty
-          ?  _buildShimmerGrid()
+          ? _buildShimmerGrid()
           : LayoutBuilder(builder: (context, constraints) {
               int columns = (constraints.maxWidth / 150).floor();
               return GridView.builder(
@@ -79,35 +82,36 @@ class _GalleryScreenState extends State<GalleryScreen> {
 
   // Shimmer effect for first page
   Widget _buildShimmerGrid() {
-    if(Platform.isAndroid){
-      return const Text("Access Device Images in Android only");
-    }
-    return   LayoutBuilder(
-      builder: (context, constraints) {
-        int columns = (constraints.maxWidth / 150).floor();
-        return GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: columns,
-            crossAxisSpacing: 6.0,
-            mainAxisSpacing: 4.0,
-            childAspectRatio: 1,
-          ),
-          itemCount: 20, // Placeholder for shimmer effect
-          itemBuilder: (context, index) {
-            // Get current brightness (light or dark mode)
-            final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    if (!kIsWeb) {
+      return LayoutBuilder(
+        builder: (context, constraints) {
+          int columns = (constraints.maxWidth / 150).floor();
+          return GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: columns,
+              crossAxisSpacing: 6.0,
+              mainAxisSpacing: 4.0,
+              childAspectRatio: 1,
+            ),
+            itemCount: 20, // Placeholder for shimmer effect
+            itemBuilder: (context, index) {
+              // Get current brightness (light or dark mode)
+              final isDarkMode =
+                  Theme.of(context).brightness == Brightness.dark;
 
-            return Shimmer.fromColors(
-              baseColor: isDarkMode ? Colors.grey[800]! : Colors.grey[300]!,
-              highlightColor:
-                  isDarkMode ? Colors.grey[700]! : Colors.grey[100]!,
-              child: Container(
-                color: isDarkMode ? Colors.black : Colors.white,
-              ),
-            );
-          },
-        );
-      },
-    );
+              return Shimmer.fromColors(
+                baseColor: isDarkMode ? Colors.grey[800]! : Colors.grey[300]!,
+                highlightColor:
+                    isDarkMode ? Colors.grey[700]! : Colors.grey[100]!,
+                child: Container(
+                  color: isDarkMode ? Colors.black : Colors.white,
+                ),
+              );
+            },
+          );
+        },
+      );
+    }
+    return const Center(child: Text("Access Device Images in Android only"));
   }
 }

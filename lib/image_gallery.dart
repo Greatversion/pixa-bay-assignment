@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pixabay_lite_app/utils/image_tile.dart';
+import 'package:pixabay_lite_app/utils/preview_dialgoue.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ImageGallery extends StatefulWidget {
@@ -122,10 +123,16 @@ class _ImageGalleryState extends State<ImageGallery>
                         return _buildCenteredLoadingIndicator();
                       }
                       final image = images[index];
-                      return ImageTile(
-                        imageUrl: image['webformatURL'],
-                        likes: image['likes'],
-                        views: image['views'],
+                      return GestureDetector(
+                        onTap: () {
+                          showImagePreviewDialog(
+                              context, image['webformatURL']);
+                        },
+                        child: ImageTile(
+                          imageUrl: image['webformatURL'],
+                          likes: image['likes'],
+                          views: image['views'],
+                        ),
                       );
                     },
                   );

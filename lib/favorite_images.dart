@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:pixabay_lite_app/Database/database.dart';
 import 'package:pixabay_lite_app/utils/image_tile.dart';
+import 'package:pixabay_lite_app/utils/preview_dialgoue.dart';
 import 'package:shimmer/shimmer.dart';
 
 class FavouriteScreen extends StatefulWidget {
@@ -46,31 +47,38 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.all(4.0),
-                    child: Card(
-                      elevation: 2,
-                      child: Column(
-                        children: [
-                          Expanded(
-                            child: CachedNetworkImage(
-                              imageUrl: _images[index],
-                              placeholder: (context, url) => Shimmer.fromColors(
-                                baseColor: isDarkMode
-                                    ? Colors.grey[800]!
-                                    : Colors.grey[300]!,
-                                highlightColor: isDarkMode
-                                    ? Colors.grey[700]!
-                                    : Colors.grey[100]!,
-                                child: Container(
-                                  color:
-                                      isDarkMode ? Colors.black : Colors.white,
+                    child: GestureDetector(
+                      onTap: () {
+                        showImagePreviewDialog(context, _images[index]);
+                      },
+                      child: Card(
+                        elevation: 2,
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: CachedNetworkImage(
+                                imageUrl: _images[index],
+                                placeholder: (context, url) =>
+                                    Shimmer.fromColors(
+                                  baseColor: isDarkMode
+                                      ? Colors.grey[800]!
+                                      : Colors.grey[300]!,
+                                  highlightColor: isDarkMode
+                                      ? Colors.grey[700]!
+                                      : Colors.grey[100]!,
+                                  child: Container(
+                                    color: isDarkMode
+                                        ? Colors.black
+                                        : Colors.white,
+                                  ),
                                 ),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
+                                fit: BoxFit.cover,
                               ),
-                              errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error),
-                              fit: BoxFit.cover,
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   );
